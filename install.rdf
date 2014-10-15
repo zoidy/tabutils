@@ -3,7 +3,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>tabutils@ithinc.cn</em:id>
     <em:type>2</em:type>
-    <em:name>Tab Utilities</em:name>
+    <em:name>Tab Utilities (phts)</em:name>
     <em:version>1.5.28.1</em:version>
     <em:creator>ithinc</em:creator>
     <em:contributor>Leszek(teo)Życzkowski</em:contributor>
@@ -18,7 +18,7 @@
     <em:translator>matsumoto (ja-JP)</em:translator>
     <em:translator>Klezzon (it)</em:translator>
     <em:description>Open Bookmarks/History/URL/Search in new tabs, and more utilities for tabbed browsing.</em:description>
-    <em:homepageURL>http://addons.mozilla.org/addon/59961</em:homepageURL>
+    <em:homepageURL>https://github.com/phts/tabutils</em:homepageURL>
     <em:iconURL>chrome://tabutils/skin/tabutils.png</em:iconURL>
     <em:optionsURL>chrome://tabutils/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
