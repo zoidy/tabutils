@@ -304,7 +304,7 @@ tabutils._PlacesUtilsExt = function() {
 
 tabutils._openUILinkInTab = function() {
 
-  //主页
+  //Home
   TU_hookCode("BrowserGoHome", "browser.tabs.loadBookmarksInBackground", "extensions.tabutils.loadHomepageInBackground");
 
   //Address bar enter key
@@ -321,14 +321,14 @@ tabutils._openUILinkInTab = function() {
   );
   TU_hookCode("openLinkIn", /(?=let uriObj)/, "w.gURLBar.handleRevert();");
 
-  //搜索栏回车键
+  //Search bar enter key
   if (BrowserSearch.searchBar)
   TU_hookCode("BrowserSearch.searchBar.handleSearchCommand",
     [/(\(aEvent && aEvent.altKey\)) \^ (newTabPref)/, "($1 || $2) && !($1 && $2 && TU_getPref('extensions.tabutils.invertAlt', true)) && !isTabEmpty(gBrowser.selectedTab)"],
     [/"tab"/, "TU_getPref('extensions.tabutils.loadSearchInBackground', false) ? 'background' : 'foreground'"]
   );
 
-  //右键点击书签
+  //Right-click on bookmark
   TU_hookCode("BookmarksEventHandler.onClick",
     ["aEvent.button == 2", "$& && (aEvent.ctrlKey || aEvent.altKey || aEvent.metaKey || !TU_getPref('extensions.tabutils.rightClickBookmarks', 0))"],
     ["aEvent.button == 1", "aEvent.button > 0"],
@@ -340,7 +340,7 @@ tabutils._openUILinkInTab = function() {
   );
   TU_hookCode("whereToOpenLink", "e.button == 1", "e.button > 0");
 
-  //保持菜单打开
+  //Keep menu open
   TU_hookCode("BookmarksEventHandler.onClick", /.*hidePopup.*/, "if (!(TU_getPref('extensions.tabutils.middleClickBookmarks', 0) & 4)) $&");
   TU_hookCode("checkForMiddleClick", /.*closeMenus.*/, "if (!(TU_getPref('extensions.tabutils.middleClickBookmarks', 0) & 4)) $&");
 
@@ -364,7 +364,7 @@ tabutils._openUILinkInTab = function() {
 
 tabutils._openLinkInTab = function() {
 
-  //强制在新标签页打开所有链接
+  //Force to open all links in a new tab
   TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + (function() {
     if (tabutils.gOpenLinkInTab && !href.startsWith("javascript:")) {
       openNewTabWith(href, linkNode.ownerDocument, null, event, false);
@@ -378,11 +378,11 @@ tabutils._openLinkInTab = function() {
       aWhere = Ci.nsIBrowserDOMWindow.OPEN_NEWTAB;
   });
 
-  //强制在后台打开所有新标签页
+  //Force to open all tabs in the background
   TU_hookCode("gBrowser.loadOneTab", /(?=var owner)/, "bgLoad = bgLoad && !tabutils.gLoadAllInForeground || tabutils.gLoadAllInBackground;");
   TU_hookCode("gBrowser.loadTabs", /(?=var owner)/, "aLoadInBackground = aLoadInBackground && !tabutils.gLoadAllInForeground || tabutils.gLoadAllInBackground;");
 
-  //强制在新标签页打开外部链接
+  //Force to open external links in a new tab
   TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + (function() {
     if (/^(https?|ftp)/.test(href) && TU_getPref("extensions.tabutils.openExternalInTab", false)) {
       let ourDomain = tabutils.getDomainFromURI(linkNode.ownerDocument.documentURIObject);
@@ -395,7 +395,7 @@ tabutils._openLinkInTab = function() {
     }
   }).toString().replace(/^.*{|}$/g, ""));
 
-  //外来链接
+  //External links
   TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.link.open_newwindow"', 'isExternal ? "browser.link.open_external" : $&');
 
   // L-click
@@ -415,7 +415,7 @@ tabutils._openLinkInTab = function() {
   );
   TU_hookCode("openNewTabWith", "aEvent.button == 1", "aEvent.button > 0");
 
-  //拖曳链接
+  //Drag Link
   TU_hookCode("handleDroppedLink", /.*loadURI.*/, function(s) (function() {
     {
       switch (true) {
