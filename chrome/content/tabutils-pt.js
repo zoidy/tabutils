@@ -1,4 +1,4 @@
-//�̶���ǩҳ
+//嘐隅梓珜
 tabutils._phantomTabs = function() {
   gBrowser.pinTab = function pinTab(aTab, aForce, aRestoring, aBookmarkId) {
     if (arguments.length == 1) {

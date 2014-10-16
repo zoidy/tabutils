@@ -128,19 +128,19 @@
     }
   });
 
-  //²à±ßÀ¸ÊéÇ©
+  //è€œæ™šæˆ²æŠŽï–
   TU_hookCode("TU_openNodeWithEvent", /_openNodeIn\((.*)\)/, function(s, s1) s.replace(s1, (s1 = s1.split(","), s1.push("aEvent || {}"), s1.join())));
   TU_hookCode("TU__openNodeIn",
     ["{", "var aEvent = arguments[arguments.callee.length];"],
     ['aWhere == "current"', '(aEvent ? !aEvent.button && !aEvent.ctrlKey && !aEvent.altKey && !aEvent.shiftKey && !aEvent.metaKey : $&)']
   );
 
-  //ÐÂ±êÇ©Ò³ÊéÇ©
+  //é™”æ¢“ï–çœæŠŽï–
   TU_hookCode("TU__openNodeIn",
     [/(?=.*PlacesUtils.annotations.*)/, 'if (aNode.tags && aNode.tags.split(",").indexOf("tab") != -1) aWhere = "tab";']
   );
 
-  //ÊéÇ©×é
+  //æŠŽï–éƒª
   TU_hookCode("TU__openTabset", /.*gBrowser.loadTabs.*/, function(s)
     s.replace("false", "where == 'current'")
      .replace("loadInBackground", "where == 'background' ? true : where == 'foreground' ? false : $& ^ browserWindow.TU_getPref('browser.tabs.loadBookmarksInBackground')")
@@ -204,7 +204,7 @@
   if (!("SidebarUtils" in window))
     return;
 
-  //ÓÒ¼üµã»÷ÊéÇ©
+  //è¡µç‘©è¸åƒ»æŠŽï–
   TU_hookCode("SidebarUtils.handleTreeClick",
     ["aEvent.button == 2", "$& && (aEvent.ctrlKey || aEvent.altKey || aEvent.metaKey || !TU_getPref('extensions.tabutils.rightClickBookmarks', 0))"],
     ["aEvent.button == 1", "aEvent.button > 0"],
