@@ -25,9 +25,8 @@
             donateURI="https://addons.mozilla.org/addon/59961/developers"
             buttons="accept,cancel,extra1,extra2"
             buttonlabelcancel="&prefwindow.close;"
-            buttonlabelextra1="&prefwindow.donate;"
+            buttonlabelextra1="&prefwindow.apply;"
             buttonlabelextra2="&prefwindow.settings;"
-            buttonlabelapply="&prefwindow.apply;"
             buttonlabelreset="&prefwindow.reset;"
             buttonlabelclose="&prefwindow.close;"
             onload="onLoad();"
@@ -943,9 +942,6 @@
         preferencesToApply.push(preference);
       }
 
-      document.documentElement.getButton("extra1").label = preferencesToApply.length == 0 ?
-                                                           document.documentElement.getAttribute("buttonlabelextra1") :
-                                                           document.documentElement.getAttribute("buttonlabelapply");
       document.documentElement.getButton("cancel").label = preferencesToApply.length == 0 ?
                                                            document.documentElement.getAttribute("buttonlabelclose") :
                                                            document.documentElement.getAttribute("buttonlabelreset");
@@ -953,7 +949,6 @@
 
     function onApply() {
       if (preferencesToApply.length == 0) {
-        openURI(document.documentElement.getAttribute("donateURI"));
         return;
       }
 
@@ -963,7 +958,6 @@
       }
 
       preferencesToApply = [];
-      document.documentElement.getButton("extra1").label = document.documentElement.getAttribute("buttonlabelextra1");
       document.documentElement.getButton("cancel").label = document.documentElement.getAttribute("buttonlabelclose");
     }
 
