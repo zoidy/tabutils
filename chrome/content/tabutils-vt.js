@@ -128,7 +128,5 @@ tabutils._verticalTabs = function() {
         }
         break;
     }
-
-    this.closeButtons();
   };
 };

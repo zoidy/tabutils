@@ -114,20 +114,10 @@
 <!ENTITY tabBarPosition.2.label "Left">
 <!ENTITY tabBarPosition.3.label "Right">
 <!ENTITY showOnTabBar.caption "Mostra sulla Barra delle schede">
-<!ENTITY button.label1 "Pulsante [">
-<!ENTITY button.label2 "]">
 <!ENTITY newTabButtonPosition.0.label "Dopo l'ultima Scheda">
 <!ENTITY newTabButtonPosition.1.label "A sinistra">
 <!ENTITY newTabButtonPosition.2.label "A destra">
 <!ENTITY newTabButtonPosition.3.label "Nascosto">
-<!ENTITY closeButtons.0.label "Solo sulla Scheda attuale">
-<!ENTITY closeButtons.1.label "Sulle Schede più larghe di">
-<!ENTITY closeButtons.2.label "NON USATO">
-<!ENTITY closeButtons.3.label "Solo sulla Barra delle schede">
-<!ENTITY closeButtons.16.label "Sulle attive/evidenziate dal Mouse">
-<!ENTITY closeButtons.18.label "Sulle schede evidenziate dal Mouse">
-<!ENTITY closeButtons.33.label "Sulla Barra/Tutte">
-<!ENTITY closeButtons.50.label "Sulla Barra/Evidenziate">
 <!ENTITY showTabCounter.label "Contatore Schede">
 <!ENTITY showLeftSpace.label "Spazio extra a sinistra">
 <!ENTITY showRightSpace.label "Spazio extra a destra">

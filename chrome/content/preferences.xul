@@ -480,7 +480,6 @@
   <prefpane id="pane4" label="&pane4.title;" helpTopic2="pane4" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
     <preferences>
       <preference id="tabBarPosition" name="extensions.tabutils.tabBarPosition" type="int" onchange="tabBarPosition();"/>
-      <preference id="closeButtons" name="extensions.tabutils.closeButtons" type="int" suggest="33" onchange="closeButtons();"/>
       <preference id="showTabCounter" name="extensions.tabutils.showTabCounter" type="bool" suggest="true"/>
       <preference id="showLeftSpace" name="extensions.tabutils.showLeftSpace" type="bool"/>
       <preference id="showRightSpace" name="extensions.tabutils.showRightSpace" type="bool"/>
@@ -498,7 +497,6 @@
       <preference id="styleSelected" name="extensions.tabutils.styles.selected" type="string" onchange="onHighlightStyle('Selected');"/>
 
       <preference id="autoHide" name="browser.tabs.autoHide" type="bool" inverted="true" suggest="false"/>
-      <preference id="tabClipWidth" name="browser.tabs.tabClipWidth" type="int"/>
       <preference id="tabMaxWidth" name="browser.tabs.tabMaxWidth" type="int"/>
       <preference id="tabMinWidth" name="browser.tabs.tabMinWidth" type="int"/>
       <preference id="tabMinHeight" name="browser.tabs.tabMinHeight" type="int"/>
@@ -569,32 +567,6 @@
           </groupbox>
           <groupbox>
             <caption label="&showOnTabBar.caption;"/>
-            <grid>
-              <rows>
-                <row align="center">
-                  <checkbox preference="closeButtons" label="&button.label1;&closeTab.label;&button.label2;"
-                            onsyncfrompreference="return $('closeButtons').value != 2;"
-                            onsynctopreference="return this.checked ? this.nextSibling.value : 2;"/>
-                  <menulist preference="closeButtons" value="1"
-                            onsyncfrompreference="return $('closeButtons').value == 2 ? this.value : $('closeButtons').value;">
-                    <menupopup>
-                      <menuitem value="0" label="&closeButtons.0.label;"/>
-                      <menuitem value="18" label="&closeButtons.18.label;"/>
-                      <menuitem value="16" label="&closeButtons.16.label;"/>
-                      <menuitem value="1" label="&closeButtons.1.label;"/>
-                      <menuitem value="3" label="&closeButtons.3.label;"/>
-                      <menuitem value="50" label="&closeButtons.50.label;"/>
-                      <menuitem value="33" label="&closeButtons.33.label;"/>
-                      <menuitem value="2" label="&closeButtons.2.label;" hidden="true"/>
-                    </menupopup>
-                  </menulist>
-                  <hbox align="center">
-                    <textbox id="c.tabClipWidth" preference="tabClipWidth" type="number" increment="10" size="3" maxlength="3"/>
-                    <label value="&pixel.label;" control="c.tabClipWidth"/>
-                  </hbox>
-                </row>
-              </rows>
-            </grid>
             <hbox>
               <checkbox preference="showTabCounter" label="&showTabCounter.label;"/>
             </hbox>
@@ -784,7 +756,6 @@
 
     <preferences>
       <preference name="browser.sessionstore.resume_from_crash" type="bool"/>
-      <preference name="browser.tabs.closeButtons" type="int"/>
       <preference name="browser.tabs.warnOnClose" type="bool"/>
       <preference name="browser.warnOnQuit" type="bool"/>
       <preference name="network.dns.ignoreHostonly" type="bool"/>
@@ -934,7 +905,6 @@
       mouseHoverSelect();
       mouseScrollSelect();
       tabBarPosition();
-      closeButtons();
       hideLoadInBackground();
       hideLoadInForeground();
 
@@ -1152,10 +1122,6 @@
 
     function tabBarPosition() {
       $("showAllTabs").disabled = $("tabBarPosition").value > 1;
-    }
-
-    function closeButtons() {
-      $("tabClipWidth").disabled = ($("closeButtons").value & 0x0f) != 1;
     }
 
     function hideLoadInBackground() {
