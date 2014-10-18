@@ -122,11 +122,8 @@
 <!ENTITY closeButtons.0.label "Apenas na aba ativa">
 <!ENTITY closeButtons.1.label "Em todas as abas com largura maior que">
 <!ENTITY closeButtons.2.label "Sem botão de fechar">
-<!ENTITY closeButtons.3.label "Apenas na barra de abas">
 <!ENTITY closeButtons.16.label "Na aba ativa/selecionada">
 <!ENTITY closeButtons.18.label "Apenas na aba selecionada">
-<!ENTITY closeButtons.33.label "Após a última/todas abas">
-<!ENTITY closeButtons.50.label "Após a última aba selecionada">
 <!ENTITY showTabCounter.label "Contador de aba">
 <!ENTITY showLeftSpace.label "Mostrar espaço extra">
 <!ENTITY showRightSpace.label "Espaço extra à direita">

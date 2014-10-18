@@ -122,11 +122,8 @@
 <!ENTITY closeButtons.0.label "をアクティブなタブのみ表示する">
 <!ENTITY closeButtons.1.label "を指定幅以上のタブに表示する">
 <!ENTITY closeButtons.2.label "を表示しない">
-<!ENTITY closeButtons.3.label "をタブバー上のみ表示する">
 <!ENTITY closeButtons.16.label "をアクティブなタブ/ポインターで指したタブに表示する">
 <!ENTITY closeButtons.18.label "をポインターで指したタブのみ表示する">
-<!ENTITY closeButtons.33.label "をタブバーとすべてのタブに表示する">
-<!ENTITY closeButtons.50.label "をタブバーとポインターで指したタブに表示する">
 <!ENTITY showTabCounter.label "タブカウンター">
 <!ENTITY showLeftSpace.label "左端に余白">
 <!ENTITY showRightSpace.label "右端に余白">

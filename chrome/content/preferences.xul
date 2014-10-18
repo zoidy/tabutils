@@ -479,7 +479,7 @@
   <prefpane id="pane4" label="&pane4.title;" helpTopic2="pane4" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
     <preferences>
       <preference id="tabBarPosition" name="extensions.tabutils.tabBarPosition" type="int" onchange="tabBarPosition();"/>
-      <preference id="closeButtons" name="extensions.tabutils.closeButtons" type="int" suggest="33" onchange="closeButtons();"/>
+      <preference id="closeButtons" name="extensions.tabutils.closeButtons" type="int" suggest="1" onchange="closeButtons();"/>
       <preference id="showTabCounter" name="extensions.tabutils.showTabCounter" type="bool" suggest="true"/>
       <preference id="showLeftSpace" name="extensions.tabutils.showLeftSpace" type="bool"/>
       <preference id="showRightSpace" name="extensions.tabutils.showRightSpace" type="bool"/>
@@ -581,9 +581,6 @@
                       <menuitem value="18" label="&closeButtons.18.label;"/>
                       <menuitem value="16" label="&closeButtons.16.label;"/>
                       <menuitem value="1" label="&closeButtons.1.label;"/>
-                      <menuitem value="3" label="&closeButtons.3.label;"/>
-                      <menuitem value="50" label="&closeButtons.50.label;"/>
-                      <menuitem value="33" label="&closeButtons.33.label;"/>
                       <menuitem value="2" label="&closeButtons.2.label;" hidden="true"/>
                     </menupopup>
                   </menulist>
@@ -1149,7 +1146,7 @@
     }
 
     function closeButtons() {
-      $("tabClipWidth").disabled = ($("closeButtons").value & 0x0f) != 1;
+      $("tabClipWidth").disabled = $("closeButtons").value != 1;
     }
 
     function hideLoadInBackground() {

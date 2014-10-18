@@ -122,11 +122,8 @@
 <!ENTITY closeButtons.0.label "nur im aktivem Tab">
 <!ENTITY closeButtons.1.label "in allen Tabs breiter als">
 <!ENTITY closeButtons.2.label "nie">
-<!ENTITY closeButtons.3.label "nur in der Tab-Leiste">
 <!ENTITY closeButtons.16.label "im aktiven Tab und bei Mauszeiger über einem Tab">
 <!ENTITY closeButtons.18.label "bei Mauszeiger über einem Tab">
-<!ENTITY closeButtons.33.label "in der Tab-Leiste und allen Tabs breiter als">
-<!ENTITY closeButtons.50.label "in der Tab-Leiste und bei Mauszeiger über einem Tab">
 <!ENTITY showTabCounter.label "Tab-Zähler">
 <!ENTITY showLeftSpace.label "Abstand auf der linken Seite">
 <!ENTITY showRightSpace.label "Abstand auf der rechten Seite">
