@@ -114,10 +114,20 @@
 <!ENTITY tabBarPosition.2.label "左邊">
 <!ENTITY tabBarPosition.3.label "右邊">
 <!ENTITY showOnTabBar.caption "分頁列要顯示的項目">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "] 按鈕">
 <!ENTITY newTabButtonPosition.0.label "在最後一個分頁後">
 <!ENTITY newTabButtonPosition.1.label "於左側顯示">
 <!ENTITY newTabButtonPosition.2.label "於右側顯示">
 <!ENTITY newTabButtonPosition.3.label "隱藏">
+<!ENTITY closeButtons.0.label "於使用中的分頁">
+<!ENTITY closeButtons.1.label "於分頁寬度超過">
+<!ENTITY closeButtons.2.label "不顯示">
+<!ENTITY closeButtons.3.label "於分頁列最後面">
+<!ENTITY closeButtons.16.label "於目前或滑鼠指到的分頁">
+<!ENTITY closeButtons.18.label "於滑鼠指到的分頁">
+<!ENTITY closeButtons.33.label "於分頁列及全部分頁">
+<!ENTITY closeButtons.50.label "於分頁列及滑鼠指到的分頁">
 <!ENTITY showTabCounter.label "分頁計數器">
 <!ENTITY showLeftSpace.label "左側額外的空間">
 <!ENTITY showRightSpace.label "右側額外的空間">
