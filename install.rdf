@@ -20,6 +20,5 @@
       </Description>
     </em:targetApplication>
     <em:strictCompatibility>false</em:strictCompatibility>
-    <em:unpack>true</em:unpack>
   </Description>
 </RDF>
