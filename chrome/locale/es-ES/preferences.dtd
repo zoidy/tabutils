@@ -2,7 +2,6 @@
 <!ENTITY prefwindow.apply "Aplicar">
 <!ENTITY prefwindow.reset "Reiniciar">
 <!ENTITY prefwindow.close "Cerrar">
-<!ENTITY prefwindow.donate "Donar">
 <!ENTITY prefwindow.settings "Perfiles">
 <!ENTITY settings.default "Perfil predeterminado">
 <!ENTITY settings.suggest "Perfil recomendado">
@@ -123,11 +122,8 @@
 <!ENTITY closeButtons.0.label "Sólo en la pestaña activa">
 <!ENTITY closeButtons.1.label "En toda pestaña de un ancho mayor a">
 <!ENTITY closeButtons.2.label "No mostrar">
-<!ENTITY closeButtons.3.label "Sólo en la barra de pestañas">
 <!ENTITY closeButtons.16.label "En la pestaña activa y en la señalada">
 <!ENTITY closeButtons.18.label "Sólo en la pestaña señalada por el cursor">
-<!ENTITY closeButtons.33.label "En toda pestaña y la barra de pestañas">
-<!ENTITY closeButtons.50.label "En la pestaña señalada y la barra de pestañas">
 <!ENTITY showTabCounter.label "Contador de pestañas">
 <!ENTITY showLeftSpace.label "Espacio libre a la izquierda">
 <!ENTITY showRightSpace.label "Espacio libre a la derecha">

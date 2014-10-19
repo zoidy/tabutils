@@ -74,7 +74,13 @@ function TU_hookFunc(aFunc) {
     if (typeof orgCode == "string")
       orgCode = RegExp(orgCode.replace(/[{[(\\^|$.?*+/)\]}]/g, "\\$&"), flags || "");
 
-    myCode = myCode.replace(orgCode, newCode);
+    var replacedCode = myCode.replace(orgCode, newCode);
+    if (replacedCode == myCode) {
+      console.warn("TU_hookFunc: nothing was replaced");
+      console.log([orgCode, newCode, flags]);
+      console.log(myCode);
+    }
+    myCode = replacedCode;
   }
 
 //  Cu.reportError(myCode);

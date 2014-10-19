@@ -53,6 +53,11 @@ var tabutils = {
     document.documentElement.setAttribute("v17", true);
     document.documentElement.setAttribute("v29", version >= 29.0);
 
+    gBrowser.mTabContainer._originalAdjustTabstripFunc = gBrowser.mTabContainer.adjustTabstrip;
+    gBrowser.mTabContainer.adjustTabstrip = function adjustTabstrip() {
+      this._originalAdjustTabstripFunc();
+    }
+
 //    Function.prototype.__defineGetter__("stack", function() {
 //      var stack = [];
 //      for (let caller = this; caller && stack.length < 15; caller = caller.caller) {
@@ -91,7 +96,7 @@ var tabutils = {
       return this.removeAttribute(aTab, aAttr);
 
     aTab.setAttribute(aAttr, aVal);
-    this._ss.setTabValue(aTab, aAttr, aVal);
+    this._ss.setTabValue(aTab, aAttr, String(aVal));
   },
 
   removeAttribute: function(aTab, aAttr) {
@@ -304,13 +309,13 @@ tabutils._PlacesUtilsExt = function() {
 
 tabutils._openUILinkInTab = function() {
 
-  //Ö÷Ò³
+  //Home
   TU_hookCode("BrowserGoHome", "browser.tabs.loadBookmarksInBackground", "extensions.tabutils.loadHomepageInBackground");
 
-  //µØÖ·À¸»Ø³µ¼ü
+  //Address bar enter key
   TU_hookCode("gURLBar.handleCommand",
     [/((aTriggeringEvent)\s*&&\s*(aTriggeringEvent.altKey))(?![\s\S]*\1)/, "let (newTabPref = TU_getPref('extensions.tabutils.openUrlInTab', true)) ($1 || newTabPref) && !(($2 ? $3 : false) && newTabPref && TU_getPref('extensions.tabutils.invertAlt', true))"],
-    [/(?=.*openUILinkIn.*)/, function() {
+    [/(?=.*openUILinkIn\(url\, where\, params.*)/, function() {
       params.inBackground = TU_getPref('extensions.tabutils.loadUrlInBackground', false);
       params.disallowInheritPrincipal = !mayInheritPrincipal;
       params.event = aTriggeringEvent || {};
@@ -321,14 +326,14 @@ tabutils._openUILinkInTab = function() {
   );
   TU_hookCode("openLinkIn", /(?=let uriObj)/, "w.gURLBar.handleRevert();");
 
-  //ËÑË÷À¸»Ø³µ¼ü
+  //Search bar enter key
   if (BrowserSearch.searchBar)
   TU_hookCode("BrowserSearch.searchBar.handleSearchCommand",
     [/(\(aEvent && aEvent.altKey\)) \^ (newTabPref)/, "($1 || $2) && !($1 && $2 && TU_getPref('extensions.tabutils.invertAlt', true)) && !isTabEmpty(gBrowser.selectedTab)"],
     [/"tab"/, "TU_getPref('extensions.tabutils.loadSearchInBackground', false) ? 'background' : 'foreground'"]
   );
 
-  //ÓÒ¼üµã»÷ÊéÇ©
+  //Right-click on bookmark
   TU_hookCode("BookmarksEventHandler.onClick",
     ["aEvent.button == 2", "$& && (aEvent.ctrlKey || aEvent.altKey || aEvent.metaKey || !TU_getPref('extensions.tabutils.rightClickBookmarks', 0))"],
     ["aEvent.button == 1", "aEvent.button > 0"],
@@ -340,7 +345,7 @@ tabutils._openUILinkInTab = function() {
   );
   TU_hookCode("whereToOpenLink", "e.button == 1", "e.button > 0");
 
-  //±£³Ö²Ëµ¥´ò¿ª
+  //Keep menu open
   TU_hookCode("BookmarksEventHandler.onClick", /.*hidePopup.*/, "if (!(TU_getPref('extensions.tabutils.middleClickBookmarks', 0) & 4)) $&");
   TU_hookCode("checkForMiddleClick", /.*closeMenus.*/, "if (!(TU_getPref('extensions.tabutils.middleClickBookmarks', 0) & 4)) $&");
 
@@ -364,7 +369,7 @@ tabutils._openUILinkInTab = function() {
 
 tabutils._openLinkInTab = function() {
 
-  //Ç¿ÖÆÔÚÐÂ±êÇ©Ò³´ò¿ªËùÓÐÁ´½Ó
+  //Force to open all links in a new tab
   TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + (function() {
     if (tabutils.gOpenLinkInTab && !href.startsWith("javascript:")) {
       openNewTabWith(href, linkNode.ownerDocument, null, event, false);
@@ -378,11 +383,11 @@ tabutils._openLinkInTab = function() {
       aWhere = Ci.nsIBrowserDOMWindow.OPEN_NEWTAB;
   });
 
-  //Ç¿ÖÆÔÚºóÌ¨´ò¿ªËùÓÐÐÂ±êÇ©Ò³
+  //Force to open all tabs in the background
   TU_hookCode("gBrowser.loadOneTab", /(?=var owner)/, "bgLoad = bgLoad && !tabutils.gLoadAllInForeground || tabutils.gLoadAllInBackground;");
   TU_hookCode("gBrowser.loadTabs", /(?=var owner)/, "aLoadInBackground = aLoadInBackground && !tabutils.gLoadAllInForeground || tabutils.gLoadAllInBackground;");
 
-  //Ç¿ÖÆÔÚÐÂ±êÇ©Ò³´ò¿ªÍâ²¿Á´½Ó
+  //Force to open external links in a new tab
   TU_hookCode("contentAreaClick", /if[^{}]*event.button == 0[^{}]*{([^{}]|{[^{}]*}|{([^{}]|{[^{}]*})*})*(?=})/, "$&" + (function() {
     if (/^(https?|ftp)/.test(href) && TU_getPref("extensions.tabutils.openExternalInTab", false)) {
       let ourDomain = tabutils.getDomainFromURI(linkNode.ownerDocument.documentURIObject);
@@ -395,7 +400,7 @@ tabutils._openLinkInTab = function() {
     }
   }).toString().replace(/^.*{|}$/g, ""));
 
-  //ÍâÀ´Á´½Ó
+  //External links
   TU_hookCode("nsBrowserAccess.prototype.openURI", '"browser.link.open_newwindow"', 'isExternal ? "browser.link.open_external" : $&');
 
   // L-click
@@ -415,7 +420,7 @@ tabutils._openLinkInTab = function() {
   );
   TU_hookCode("openNewTabWith", "aEvent.button == 1", "aEvent.button > 0");
 
-  //ÍÏÒ·Á´½Ó
+  //Drag Link
   TU_hookCode("handleDroppedLink", /.*loadURI.*/, function(s) (function() {
     {
       switch (true) {
@@ -434,7 +439,7 @@ tabutils._openLinkInTab = function() {
     b.droppedLinkHandler = handleDroppedLink;
   }
 
-  //ÔÚÐÂ±êÇ©Ò³´ò¿ªÁ´½ÓÊ±¼Ì³ÐÀúÊ·
+  //åœ¨æ–°æ ‡ç­¾é¡µæ‰“å¼€é“¾æŽ¥æ—¶ç»§æ‰¿åŽ†å²
   TU_hookCode("gBrowser.loadOneTab",
     ["{", function() {
       var currentTab = this.mCurrentTab;
@@ -451,7 +456,7 @@ tabutils._openLinkInTab = function() {
   );
 };
 
-//µ¥´°¿ÚÄ£Ê½
+//å•çª—å£æ¨¡å¼
 tabutils._singleWindowMode = function() {
   if (TU_getPref("extensions.tabutils.singleWindowMode", false)) {
     var win = (function() {
@@ -541,7 +546,7 @@ tabutils._singleWindowMode = function() {
 
 tabutils._tabOpeningOptions = function() {
 
-  //ÐÂ½¨±êÇ©Ò³Ê±ÀûÓÃÒÑÓÐ¿Õ°×±êÇ©Ò³
+  //æ–°å»ºæ ‡ç­¾é¡µæ—¶åˆ©ç”¨å·²æœ‰ç©ºç™½æ ‡ç­¾é¡µ
   TU_hookCode("gBrowser.addTab",
     [/if \(arguments.length == 2[^{}]*\) {[^{}]*}/, "$&" + (function() {
       if (!isBlankPageURL(aURI)) {
@@ -581,7 +586,7 @@ tabutils._tabOpeningOptions = function() {
   };
   TU_hookCode("isBlankPageURL", 'aURL == "about:blank"', "gInitialPages.indexOf(aURL) > -1");
 
-  //×Ô¶¯¹Ø±Õ·ÇÖ÷¶¯´ò¿ªµÄ¿Õ°×±êÇ©Ò³
+  //è‡ªåŠ¨å…³é—­éžä¸»åŠ¨æ‰“å¼€çš„ç©ºç™½æ ‡ç­¾é¡µ
   TU_hookCode("gBrowser.mTabProgressListener", /(?=var location)/, function() {
     if (aWebProgress.DOMWindow.document.documentURI == "about:blank"
         && aRequest.QueryInterface(nsIChannel).URI.spec != "about:blank"
@@ -622,8 +627,8 @@ tabutils._tabOpeningOptions = function() {
     };
   })();
 
-  //ÔÚµ±Ç°±êÇ©Ò³µÄÓÒ²à´ò¿ªÐÂ±êÇ©Ò³
-  //Á¬Ðø´ò¿ªºóÌ¨±êÇ©Ê±±£³ÖÔ­ÓÐË³Ðò
+  //åœ¨å½“å‰æ ‡ç­¾é¡µçš„å³ä¾§æ‰“å¼€æ–°æ ‡ç­¾é¡µ
+  //è¿žç»­æ‰“å¼€åŽå°æ ‡ç­¾æ—¶ä¿æŒåŽŸæœ‰é¡ºåº
   TU_hookCode("gBrowser.addTab",
     [/\S*insertRelatedAfterCurrent\S*(?=\))/, "false"],
     [/(?=(return t;)(?![\s\S]*\1))/, function() {
@@ -674,7 +679,7 @@ tabutils._tabOpeningOptions = function() {
       this.updateCurrentBrowser(true);
   });
 
-  //ÐÂ½¨±êÇ©Ò³
+  //æ–°å»ºæ ‡ç­¾é¡µ
   if (BrowserOpenTab.name == "BrowserOpenTab") { //Compatibility with Speed Dial
     TU_hookCode("BrowserOpenTab",
       [/.*openUILinkIn\((.*)\)/, function(s, s1) s.replace(s1, (
@@ -694,7 +699,7 @@ tabutils._tabOpeningOptions = function() {
     return this.mTabContainer.getElementsByAttribute("linkedpanel", this.mPanelContainer.lastChild.id)[0];
   };
 
-  //¸´ÖÆ±êÇ©Ò³
+  //å¤åˆ¶æ ‡ç­¾é¡µ
   TU_hookCode("gBrowser.duplicateTab",
     [/return/g, "var tab ="],
     ["}", function() {
@@ -712,7 +717,7 @@ tabutils._tabOpeningOptions = function() {
     }]
   );
 
-  //³·Ïú¹Ø±Õ±êÇ©Ò³
+  //æ’¤é”€å…³é—­æ ‡ç­¾é¡µ
   TU_hookCode("gBrowser.moveTabTo", "{", function() {
     if (arguments.callee.caller.name == "ssi_undoCloseTab"
         && !TU_getPref("extensions.tabutils.restoreOriginalPosition", true))
@@ -722,7 +727,7 @@ tabutils._tabOpeningOptions = function() {
 
 tabutils._tabClosingOptions = function() {
 
-  //¹Ø±Õ±êÇ©Ò³Ê±Ñ¡Ôñ×ó²à/ÓÒ²à/µÚÒ»¸ö/×îºóÒ»¸ö±êÇ©
+  //å…³é—­æ ‡ç­¾é¡µæ—¶é€‰æ‹©å·¦ä¾§/å³ä¾§/ç¬¬ä¸€ä¸ª/æœ€åŽä¸€ä¸ªæ ‡ç­¾
   gBrowser._tabsToSelect = function _tabsToSelect(aTabs) {
     if (!aTabs)
       aTabs = this.visibleTabs;
@@ -800,7 +805,7 @@ tabutils._tabClosingOptions = function() {
     }
   };
 
-  //¹Ø±Õ±êÇ©Ò³Ê±Ñ¡ÔñÇ×Êô±êÇ©
+  //å…³é—­æ ‡ç­¾é¡µæ—¶é€‰æ‹©äº²å±žæ ‡ç­¾
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var panelId = aTab.linkedPanel + "#";
     Array.forEach(this.visibleTabs, function(aTab) {
@@ -834,27 +839,27 @@ tabutils._tabClosingOptions = function() {
         || bTab.getAttribute("opener").startsWith(aTab.linkedPanel + "#");
   };
 
-  //¹Ø±Õ±êÇ©Ò³Ê±Ñ¡ÔñÉÏ´Îä¯ÀÀµÄ±êÇ©
+  //å…³é—­æ ‡ç­¾é¡µæ—¶é€‰æ‹©ä¸Šæ¬¡æµè§ˆçš„æ ‡ç­¾
   gBrowser.mTabContainer._tabHistory = Array.slice(gBrowser.mTabs);
   TU_hookCode("gBrowser.onTabOpen", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
     tabHistory.splice(1, 0, aTab);
     aTab._lastAccessed = Date.now();
-    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
+    tabutils._ss.setTabValue(aTab, "lastAccessed", String(aTab._lastAccessed));
   });
 
   TU_hookCode("gBrowser.onTabSelect", "}", function() {
     var tabHistory = this.mTabContainer._tabHistory;
     var lastTab = tabHistory[0];
     lastTab._lastAccessed = Date.now();
-    tabutils._ss.setTabValue(lastTab, "lastAccessed", lastTab._lastAccessed);
+    tabutils._ss.setTabValue(lastTab, "lastAccessed", String(lastTab._lastAccessed));
 
     var index = tabHistory.indexOf(aTab);
     if (index > -1)
       tabHistory.splice(index, 1);
     tabHistory.unshift(aTab);
     aTab._lastAccessed = Infinity;
-    tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
+    tabutils._ss.setTabValue(aTab, "lastAccessed", String(aTab._lastAccessed));
   });
 
   TU_hookCode("gBrowser.onTabClose", "}", function() {
@@ -871,7 +876,7 @@ tabutils._tabClosingOptions = function() {
       tabHistory.splice(index, 1);
 
     if (aTab._lastAccessed == Infinity)
-      tabutils._ss.setTabValue(aTab, "lastAccessed", aTab._lastAccessed);
+      tabutils._ss.setTabValue(aTab, "lastAccessed", String(aTab._lastAccessed));
     else
       aTab._lastAccessed = tabutils._ss.getTabValue(aTab, "lastAccessed");
 
@@ -889,8 +894,8 @@ tabutils._tabClosingOptions = function() {
         || tabHistory[aDir < 0 ? tabHistory.length - 1 : 0];
   };
 
-  //Ctrl+TabÇÐ»»µ½ÉÏ´Îä¯ÀÀµÄ±êÇ©
-  //Ctrl+×óÓÒ·½Ïò¼üÇÐ»»µ½Ç°Ò»¸ö/ºóÒ»¸ö±êÇ©
+  //Ctrl+Tabåˆ‡æ¢åˆ°ä¸Šæ¬¡æµè§ˆçš„æ ‡ç­¾
+  //Ctrl+å·¦å³æ–¹å‘é”®åˆ‡æ¢åˆ°å‰ä¸€ä¸ª/åŽä¸€ä¸ªæ ‡ç­¾
   tabutils.addEventListener(window, "keydown", function(event) {
     if (!event.ctrlKey || event.altKey || event.metaKey)
       return;
@@ -1104,7 +1109,7 @@ tabutils._tabClosingOptions = function() {
   }, false);
 };
 
-//±ê¼ÇÎ´¶Á±êÇ©Ò³
+//æ ‡è®°æœªè¯»æ ‡ç­¾é¡µ
 tabutils._unreadTab = function() {
   gBrowser.unreadTab = function unreadTab(aTab, aForce) {
     if (aForce == null)
@@ -1143,7 +1148,7 @@ tabutils._unreadTab = function() {
   });
 }
 
-//±£»¤±êÇ©Ò³¡¢Ëø¶¨±êÇ©Ò³¡¢¶³½á±êÇ©Ò³
+//ä¿æŠ¤æ ‡ç­¾é¡µã€é”å®šæ ‡ç­¾é¡µã€å†»ç»“æ ‡ç­¾é¡µ
 tabutils._protectAndLockTab = function() {
   /* aRestoring = null: setAttribute + setTabValue + tagURI
    * aRestoring = false: setAttribute + setTabValue
@@ -1168,7 +1173,7 @@ tabutils._protectAndLockTab = function() {
     else {
       aTab.setAttribute("protected", true);
       if (!aRestoring)
-        tabutils._ss.setTabValue(aTab, "protected", true);
+        tabutils._ss.setTabValue(aTab, "protected", String(true));
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoProtect", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["protected"]);
       }
@@ -1194,7 +1199,7 @@ tabutils._protectAndLockTab = function() {
     else {
       aTab.setAttribute("locked", true);
       if (!aRestoring)
-        tabutils._ss.setTabValue(aTab, "locked", true);
+        tabutils._ss.setTabValue(aTab, "locked", String(true));
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoLock", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["locked"]);
       }
@@ -1272,7 +1277,7 @@ tabutils._protectAndLockTab = function() {
   }).toString().replace(/^.*{|}$/g, ""));
 };
 
-//Í¼±ê»¯±êÇ©Ò³
+//å›¾æ ‡åŒ–æ ‡ç­¾é¡µ
 tabutils._faviconizeTab = function() {
   gBrowser.faviconizeTab = function faviconizeTab(aTab, aForce, aRestoring) {
     if (aForce == aTab.hasAttribute("faviconized"))
@@ -1293,7 +1298,7 @@ tabutils._faviconizeTab = function() {
     else {
       aTab.setAttribute("faviconized", true);
       if (!aRestoring)
-        tabutils._ss.setTabValue(aTab, "faviconized", true);
+        tabutils._ss.setTabValue(aTab, "faviconized", String(true));
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoFaviconize", true)) {
         PlacesUtils.tagging.tagURI(aTab.linkedBrowser.currentURI, ["faviconized"]);
       }
@@ -1316,11 +1321,11 @@ tabutils._faviconizeTab = function() {
   TU_hookCode("gBrowser.onLocationChange", "}", "this.autoFaviconizeTab(aTab, uri, tags);");
 };
 
-//¹Ì¶¨±êÇ©Ò³
+//å›ºå®šæ ‡ç­¾é¡µ
 tabutils._pinTab = function() {
 };
 
-//ÖØÃüÃû±êÇ©Ò³
+//é‡å‘½åæ ‡ç­¾é¡µ
 tabutils._renameTab = function() {
   gBrowser.renameTab = function renameTab(aTab, aTitle, aRestoring) {
     if (aTab.getAttribute("title") == aTitle)
@@ -1436,7 +1441,7 @@ tabutils._restartTab = function() {
   });
 };
 
-//×Ô¶¯Ë¢ÐÂ±êÇ©Ò³
+//è‡ªåŠ¨åˆ·æ–°æ ‡ç­¾é¡µ
 tabutils._reloadEvery = function() {
   gBrowser.autoReloadTab = function autoReloadTab(aTab, aForce, aRestoring, aInterval) {
     if (aForce == aTab.hasAttribute("autoReload") && (!aForce || aInterval == aTab._reloadInterval))
@@ -1463,8 +1468,8 @@ tabutils._reloadEvery = function() {
       aTab._reloadInterval = aInterval || aTab._reloadInterval || TU_getPref("extensions.tabutils.reloadInterval", 10);
       TU_setPref("extensions.tabutils.reloadInterval", aTab._reloadInterval);
       if (!aRestoring) {
-        tabutils._ss.setTabValue(aTab, "autoReload", true);
-        tabutils._ss.setTabValue(aTab, "reloadInterval", aTab._reloadInterval);
+        tabutils._ss.setTabValue(aTab, "autoReload", String(true));
+        tabutils._ss.setTabValue(aTab, "reloadInterval", String(aTab._reloadInterval));
       }
 
       if (aRestoring == null && !gPrivateBrowsingUI.privateBrowsingEnabled && TU_getPref("extensions.tabutils.autoEnableAutoReload", true)) {
@@ -1781,7 +1786,7 @@ tabutils._multiTabHandler = function() {
     }, []);
   };
 
-  //¹Ø±Õ¶à¸ö±êÇ©Ò³
+  //å…³é—­å¤šä¸ªæ ‡ç­¾é¡µ
   TU_hookCode("gBrowser.warnAboutClosingTabs", /\w+(?= <= 1)/, "($& = arguments[1] && 'length' in arguments[1] ? arguments[1].length : $&)"); // Bug 866880 [Fx24]
   gBrowser.removeTabsBut = function removeTabsBut(aTabs, bTabs) {
     aTabs = aTabs ? "length" in aTabs ? aTabs : [aTabs] : [];
@@ -1822,7 +1827,7 @@ tabutils._multiTabHandler = function() {
   gBrowser.closeAllTabs = function() this.removeTabsBut(this.allTabs);
   gBrowser.closeAllDuplicateTabs = function() this.removeTabsBut(this.allTabs, this.uniqueTabsOf(this.allTabs));
 
-  //ÍÏÒ·¶à¸ö±êÇ©Ò³
+  //æ‹–æ›³å¤šä¸ªæ ‡ç­¾é¡µ
   gBrowser.gatherTabs = function gatherTabs(aTabs, aTab, aSuppressTabMove) {
     let index = 0;
     if (aTab) {
@@ -2023,7 +2028,7 @@ tabutils._multiTabHandler = function() {
 
 tabutils._tabClickingOptions = function() {
 
-  //ÔØÈë¼ôÌù°åURL
+  //è½½å…¥å‰ªè´´æ¿URL
   gBrowser.loadURLFromClipboard = function loadURLFromClipboard(aTab) {
     var url = readFromClipboard();
     if (!url)
@@ -2038,7 +2043,7 @@ tabutils._tabClickingOptions = function() {
     }
   };
 
-  //ä¯ÀÀÀúÊ·²Ëµ¥
+  //æµè§ˆåŽ†å²èœå•
   TU_hookCode("FillHistoryMenu",
     ["count <= 1", "count == 0"],
     [/(?=var webNav)/, function() {
@@ -2435,7 +2440,7 @@ tabutils._miscFeatures = function() {
   }
 };
 
-//ä¯ÀÀÇøÓÒ¼ü²Ëµ¥
+//æµè§ˆåŒºå³é”®èœå•
 tabutils._mainContextMenu = function() {
   nsContextMenu.prototype.isLinkSelected = function() {
     var focusedWindow = document.commandDispatcher.focusedWindow;
@@ -2759,7 +2764,7 @@ tabutils._hideTabBar = function() {
   TU_hookCode("gBrowser.mTabContainer.updateVisibility", "{", 'if (!TU_getPref("browser.tabs.autoHide")) return;');
 };
 
-//³·Ïú¹Ø±Õ±êÇ©Ò³°´Å¥
+//æ’¤é”€å…³é—­æ ‡ç­¾é¡µæŒ‰é’®
 tabutils._undoCloseTabButton = function() {
   TU_hookCode("RecentlyClosedTabsAndWindowsMenuUtils" in window ?
               "RecentlyClosedTabsAndWindowsMenuUtils._undoCloseMiddleClick" : // Bug 928640 [Fx27]
@@ -2852,17 +2857,26 @@ tabutils._tabPrefObserver = {
 
     //Close buttons
     TU_hookCode("gBrowser.mTabContainer.adjustTabstrip",
-      [/let tab.*/, function() {
-        let tab;
-        Array.some(this.tabbrowser.visibleTabs, function(aTab) {
-          return !aTab.collapsed && getComputedStyle(aTab).MozBoxFlex > 0 && (tab = aTab);
-        });
-      }],
-      ["this.mCloseButtons", "($& & 0x0f)"],
-      ["this.mCloseButtons != 3", "(this.mCloseButtons & 0x0f) != 3 && !(this.mCloseButtons & 0x20)"],
-      ["this._closeWindowWithLastTab", "false", "g"],
+      ["this._originalAdjustTabstripFunc();", "if (this.mCloseButtons == 10) {$&}"],
       ["}", function() {
-        this.setAttribute("closeButtonOnPointedTab", (this.mCloseButtons & 0x0f) == 1 || !!(this.mCloseButtons & 0x10));
+        if (this.mCloseButtons != 10) {
+          var def = "alltabs";
+          var map = {
+             0: "activetab",
+             1: "alltabs",
+             2: "hidden",
+            16: "activepointedtab",
+            18: "pointedtab"
+          };
+          var value = map[this.mCloseButtons] || def;
+          if (value == "alltabs") {
+            let tab = this.tabbrowser.visibleTabs[this.tabbrowser._numPinnedTabs];
+            if (tab && tab.getBoundingClientRect().width <= this.mTabClipWidth) {
+              value = "hidden";
+            }
+          }
+          this.setAttribute("closebuttons", value);
+        }
       }]
     );
 
