@@ -113,10 +113,17 @@
 <!ENTITY tabBarPosition.2.label "po lewej stronie">
 <!ENTITY tabBarPosition.3.label "po prawej stronie">
 <!ENTITY showOnTabBar.caption "Wyświetlaj na pasku kart:">
+<!ENTITY button.label1 "Przycisk [">
+<!ENTITY button.label2 "]">
 <!ENTITY newTabButtonPosition.0.label "za ostatnią etykietą">
 <!ENTITY newTabButtonPosition.1.label "po lewej stronie paska">
 <!ENTITY newTabButtonPosition.2.label "po prawej stronie paska">
 <!ENTITY newTabButtonPosition.3.label "nie wyświetlaj">
+<!ENTITY closeButtons.0.label "na etykiecie aktywnej karty">
+<!ENTITY closeButtons.1.label "na etykietach kart szerszych niż">
+<!ENTITY closeButtons.2.label "nie wyświetlaj">
+<!ENTITY closeButtons.16.label "na aktywnej lub wskazanej etykiecie karty">
+<!ENTITY closeButtons.18.label "na wskazanej etykiecie karty">
 <!ENTITY showTabCounter.label "Licznik kart">
 <!ENTITY showLeftSpace.label "Dodatkową przestrzeń po lewej stronie paska">
 <!ENTITY showRightSpace.label "Po prawej stronie paska">

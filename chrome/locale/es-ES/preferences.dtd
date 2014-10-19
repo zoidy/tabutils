@@ -113,10 +113,17 @@
 <!ENTITY tabBarPosition.2.label "Izquierda">
 <!ENTITY tabBarPosition.3.label "Derecha">
 <!ENTITY showOnTabBar.caption "Mostrar en la barra de pestañas:">
+<!ENTITY button.label1 "Botón [">
+<!ENTITY button.label2 "]">
 <!ENTITY newTabButtonPosition.0.label "Tras la última pestaña">
 <!ENTITY newTabButtonPosition.1.label "En el extremo izquierdo">
 <!ENTITY newTabButtonPosition.2.label "En el extremo derecho">
 <!ENTITY newTabButtonPosition.3.label "Oculto">
+<!ENTITY closeButtons.0.label "Sólo en la pestaña activa">
+<!ENTITY closeButtons.1.label "En toda pestaña de un ancho mayor a">
+<!ENTITY closeButtons.2.label "No mostrar">
+<!ENTITY closeButtons.16.label "En la pestaña activa y en la señalada">
+<!ENTITY closeButtons.18.label "Sólo en la pestaña señalada por el cursor">
 <!ENTITY showTabCounter.label "Contador de pestañas">
 <!ENTITY showLeftSpace.label "Espacio libre a la izquierda">
 <!ENTITY showRightSpace.label "Espacio libre a la derecha">

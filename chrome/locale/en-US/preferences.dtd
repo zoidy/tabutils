@@ -113,10 +113,18 @@
 <!ENTITY tabBarPosition.2.label "Left">
 <!ENTITY tabBarPosition.3.label "Right">
 <!ENTITY showOnTabBar.caption "Show on tab bar">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "] button">
 <!ENTITY newTabButtonPosition.0.label "After last tab">
 <!ENTITY newTabButtonPosition.1.label "On left side">
 <!ENTITY newTabButtonPosition.2.label "On right side">
 <!ENTITY newTabButtonPosition.3.label "Hidden">
+<!ENTITY closeButtons.0.label "On active tab only">
+<!ENTITY closeButtons.1.label "On all tabs wider than">
+<!ENTITY closeButtons.2.label "No close buttons">
+<!ENTITY closeButtons.10.label "Browser default">
+<!ENTITY closeButtons.16.label "On active/pointed tab">
+<!ENTITY closeButtons.18.label "On pointed tab only">
 <!ENTITY showTabCounter.label "Tab counter">
 <!ENTITY showLeftSpace.label "Left extra space">
 <!ENTITY showRightSpace.label "Right extra space">

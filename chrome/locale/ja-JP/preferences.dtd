@@ -113,10 +113,17 @@
 <!ENTITY tabBarPosition.2.label "左側">
 <!ENTITY tabBarPosition.3.label "右側">
 <!ENTITY showOnTabBar.caption "タブバーに表示">
+<!ENTITY button.label1 "[">
+<!ENTITY button.label2 "] ボタン">
 <!ENTITY newTabButtonPosition.0.label "を最後のタブの後ろに表示する">
 <!ENTITY newTabButtonPosition.1.label "を左側に表示する">
 <!ENTITY newTabButtonPosition.2.label "を右側に表示する">
 <!ENTITY newTabButtonPosition.3.label "を非表示する">
+<!ENTITY closeButtons.0.label "をアクティブなタブのみ表示する">
+<!ENTITY closeButtons.1.label "を指定幅以上のタブに表示する">
+<!ENTITY closeButtons.2.label "を表示しない">
+<!ENTITY closeButtons.16.label "をアクティブなタブ/ポインターで指したタブに表示する">
+<!ENTITY closeButtons.18.label "をポインターで指したタブのみ表示する">
 <!ENTITY showTabCounter.label "タブカウンター">
 <!ENTITY showLeftSpace.label "左端に余白">
 <!ENTITY showRightSpace.label "右端に余白">

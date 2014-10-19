@@ -8,6 +8,22 @@ menuseparator:last-child {
   display: none;
 }
 
+/* Close Tab buttons */
+.tabbrowser-tabs[closebuttons="pointedtab"] > .tabbrowser-tab:hover .tab-close-button,
+.tabbrowser-tabs[closebuttons="activepointedtab"] > .tabbrowser-tab:hover .tab-close-button,
+.tabbrowser-tabs[closebuttons="activetab"] > .tabbrowser-tab[selected] .tab-close-button,
+.tabbrowser-tabs[closebuttons="activepointedtab"] > .tabbrowser-tab[selected] .tab-close-button,
+.tabbrowser-tabs[closebuttons="alltabs"] > .tabbrowser-tab .tab-close-button {
+  display: -moz-box;
+}
+
+.tabbrowser-tabs[closebuttons="pointedtab"] > .tabbrowser-tab:not(:hover) .tab-close-button,
+.tabbrowser-tabs[closebuttons="activetab"] > .tabbrowser-tab:not([selected]) .tab-close-button,
+.tabbrowser-tabs[closebuttons="activepointedtab"] > .tabbrowser-tab:not(:hover):not([selected]) .tab-close-button,
+.tabbrowser-tabs[closebuttons="hidden"] > .tabbrowser-tab .tab-close-button {
+  display: none;
+}
+
 /* All Tabs button */
 .tabs-alltabs-button[showTabCounter="true"] {
   visibility: visible !important; /* Fx12 */

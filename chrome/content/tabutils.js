@@ -53,6 +53,11 @@ var tabutils = {
     document.documentElement.setAttribute("v17", true);
     document.documentElement.setAttribute("v29", version >= 29.0);
 
+    gBrowser.mTabContainer._originalAdjustTabstripFunc = gBrowser.mTabContainer.adjustTabstrip;
+    gBrowser.mTabContainer.adjustTabstrip = function adjustTabstrip() {
+      this._originalAdjustTabstripFunc();
+    }
+
 //    Function.prototype.__defineGetter__("stack", function() {
 //      var stack = [];
 //      for (let caller = this; caller && stack.length < 15; caller = caller.caller) {
@@ -2850,6 +2855,31 @@ tabutils._tabPrefObserver = {
     window.addEventListener("unload", this, false);
     this.register();
 
+    //Close buttons
+    TU_hookCode("gBrowser.mTabContainer.adjustTabstrip",
+      ["this._originalAdjustTabstripFunc();", "if (this.mCloseButtons == 10) {$&}"],
+      ["}", function() {
+        if (this.mCloseButtons != 10) {
+          var def = "alltabs";
+          var map = {
+             0: "activetab",
+             1: "alltabs",
+             2: "hidden",
+            16: "activepointedtab",
+            18: "pointedtab"
+          };
+          var value = map[this.mCloseButtons] || def;
+          if (value == "alltabs") {
+            let tab = this.tabbrowser.visibleTabs[this.tabbrowser._numPinnedTabs];
+            if (tab && tab.getBoundingClientRect().width <= this.mTabClipWidth) {
+              value = "hidden";
+            }
+          }
+          this.setAttribute("closebuttons", value);
+        }
+      }]
+    );
+
     //Tab counter
     TU_hookCode("gBrowser.mTabContainer.adjustTabstrip", "}", function() {
       if (this.mAllTabsPopup) {
@@ -2868,6 +2898,7 @@ tabutils._tabPrefObserver = {
 
     Services.prefs.getChildList("extensions.tabutils.", {}).sort().concat([
       "browser.tabs.animate", //Bug 649671
+      "browser.tabs.tabClipWidth",
       "browser.tabs.tabMaxWidth",
       "browser.tabs.tabMinWidth",
       "browser.tabs.tabMinHeight"
@@ -2907,6 +2938,7 @@ tabutils._tabPrefObserver = {
 
     switch (aData) {
       case "browser.tabs.animate": this.animate();return;
+      case "browser.tabs.tabClipWidth": this.tabClipWidth();return;
       case "browser.tabs.tabMaxWidth": this.tabMaxWidth();return;
       case "browser.tabs.tabMinWidth": this.tabMinWidth();return;
       case "browser.tabs.tabMinHeight": this.tabMinHeight();return;
@@ -3104,6 +3136,11 @@ tabutils._tabPrefObserver = {
     gBrowser.mTabContainer.setAttribute("dontanimate", !TU_getPref("browser.tabs.animate"));
   },
 
+  tabClipWidth: function() {
+    gBrowser.mTabContainer.mTabClipWidth = TU_getPref("browser.tabs.tabClipWidth");
+    gBrowser.mTabContainer.adjustTabstrip();
+  },
+
   tabMaxWidth: function() {
     this._tabWidthRule[0].style.setProperty("max-width", TU_getPref("browser.tabs.tabMaxWidth") + "px", "");
     this._tabWidthRule[1].style.setProperty("width", TU_getPref("browser.tabs.tabMaxWidth") + "px", "");
@@ -3161,6 +3198,11 @@ tabutils._tabPrefObserver = {
       tabutils.insertRule('.tabbrowser-tab, .tabbrowser-arrowscrollbox > .tabs-newtab-button {}'),
       tabutils.insertRule('.tabbrowser-tabs:not([multirow]) .tabbrowser-arrowscrollbox > scrollbox {}')
     ];
+  },
+
+  closeButtons: function() {
+    gBrowser.mTabContainer.mCloseButtons = TU_getPref("extensions.tabutils.closeButtons");
+    gBrowser.mTabContainer.adjustTabstrip();
   },
 
   showTabCounter: function() {

@@ -113,10 +113,17 @@
 <!ENTITY tabBarPosition.2.label "Esquerda">
 <!ENTITY tabBarPosition.3.label "Direita">
 <!ENTITY showOnTabBar.caption "Exibir na barra de aba">
+<!ENTITY button.label1 "botão [">
+<!ENTITY button.label2 "]">
 <!ENTITY newTabButtonPosition.0.label "Após a última aba">
 <!ENTITY newTabButtonPosition.1.label "No lado esquerdo">
 <!ENTITY newTabButtonPosition.2.label "No lado direito">
 <!ENTITY newTabButtonPosition.3.label "Escondido">
+<!ENTITY closeButtons.0.label "Apenas na aba ativa">
+<!ENTITY closeButtons.1.label "Em todas as abas com largura maior que">
+<!ENTITY closeButtons.2.label "Sem botão de fechar">
+<!ENTITY closeButtons.16.label "Na aba ativa/selecionada">
+<!ENTITY closeButtons.18.label "Apenas na aba selecionada">
 <!ENTITY showTabCounter.label "Contador de aba">
 <!ENTITY showLeftSpace.label "Mostrar espaço extra">
 <!ENTITY showRightSpace.label "Espaço extra à direita">
