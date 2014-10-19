@@ -12,7 +12,7 @@
 <!ENTITY pane3.title "Mouse">
 <!ENTITY pane4.title "Appearance">
 <!ENTITY pane1.tab1.title "Tab Opening">
-<!ENTITY pane1.tab2.title "Tab Closing">
+<!ENTITY pane1.tab2.title "Tab Focusing">
 <!ENTITY pane3.tab1.title "L-click">
 <!ENTITY pane3.tab2.title "M-click">
 <!ENTITY pane3.tab3.title "R-click">
@@ -20,10 +20,22 @@
 <!ENTITY pane3.tab5.title "Ctrl-click">
 <!ENTITY pane3.tab6.title "Alt-click">
 <!ENTITY pane3.tab7.title "Shift-click">
+<!ENTITY pane3.tab11.title "Hover">
+<!ENTITY pane3.tab12.title "Scroll">
 <!ENTITY pane4.tab1.title "Tab Bar">
 <!ENTITY pane4.tab2.title "Menus">
 <!ENTITY pane4.tab3.title "Buttons">
 <!ENTITY openTabFor.caption "Open new tabs for:">
+<!ENTITY links.label "Links">
+<!ENTITY linksToExternal.label "External links">
+<!ENTITY linksToExternal.tooltip "Links to external sites">
+<!ENTITY linksWithTarget.label "New-window links">
+<!ENTITY linksWithTarget.tooltip "Links targeting new windows">
+<!ENTITY linksFromForeign.label "Foreign links">
+<!ENTITY linksFromForeign.tooltip "Links from foreign applications">
+<!ENTITY openLinkWithHistory.label "Retain session history for new tabs from links">
+<!ENTITY removeUnintentionalBlank.label "Auto-close unintentional blank tabs">
+<!ENTITY singleWindowMode.label "Enable single window mode">
 <!ENTITY openTabNext.label "Open new tabs next to current tab which are from:">
 <!ENTITY none.label "None">
 <!ENTITY all.label "All">
@@ -34,18 +46,17 @@
 <!ENTITY reuseBlank.current.label "Current">
 <!ENTITY reuseBlank.last.label "Last">
 <!ENTITY reuseBlank.all.label "All">
-<!ENTITY loadInBackground.caption "Focus new tabs from:">
-<!ENTITY loadInBackground.label "Links">
-<!ENTITY loadDivertedInBackground.label "Diverted windows">
-<!ENTITY loadUrlInBackground.label "Address bar">
-<!ENTITY loadSearchInBackground.label "Search bar">
-<!ENTITY loadNewInBackground.label "New Tab">
-<!ENTITY loadDuplicateInBackground.label "Duplicate Tab">
 <!ENTITY loadInNewTab.label "Load in new tab:">
 <!ENTITY loadInNewTab.0.label "Blank Page">
 <!ENTITY loadInNewTab.1.label "Home Page">
 <!ENTITY loadInNewTab.2.label "User Defined">
 <!ENTITY userDefinedURL.label "Location:">
+<!ENTITY markNewAsBlank.label "Don't locate cursor to the address bar for non-blank pages">
+<!ENTITY loadInBackground.caption "Focus new tabs from:">
+<!ENTITY loadUrlInBackground.label "Address bar">
+<!ENTITY loadSearchInBackground.label "Search bar">
+<!ENTITY loadNewInBackground.label "New Tab">
+<!ENTITY loadDuplicateInBackground.label "Duplicate Tab">
 <!ENTITY selectOnClose.label "Focus a tab in the following order when closing current tab:">
 <!ENTITY unreadTabs.label "Unread tabs">
 <!ENTITY relatedTabs.label "Related tabs">
@@ -56,27 +67,10 @@
 <!ENTITY firstTab.label "First tab">
 <!ENTITY lastTab.label "Last tab">
 <!ENTITY lastSelectedTab.label "Last visited tab">
-<!ENTITY closeOtherTab.caption "Close Other Tab">
-<!ENTITY removeUnintentionalBlank.label "Auto-close unintentional blank tabs">
 <!ENTITY maxTabsUndo.label "Max restorable tabs:">
 <!ENTITY handleCtrlTab.caption "Ctrl Tab">
 <!ENTITY handleCtrlTab.label "Ctrl+Tab to navigate tabs in most recently used order">
 <!ENTITY handleCtrlArrow.label "Ctrl+Arrow to navigate tabs in sequential order">
-<!ENTITY openNewWindow.caption "Open links in:">
-<!ENTITY openNewWindow.label "Open new-window links in:">
-<!ENTITY openExternal.label "Open links from external applications in:">
-<!ENTITY openNewWindow.1.label "Current Tab">
-<!ENTITY openNewWindow.2.label "New Window">
-<!ENTITY openNewWindow.3.label "New Tab">
-<!ENTITY openNewWindowRestriction.label "Except:">
-<!ENTITY openNewWindowRestriction.0.label "None">
-<!ENTITY openNewWindowRestriction.1.label "All">
-<!ENTITY openNewWindowRestriction.2.label "Resized popups">
-<!ENTITY singleWindowMode.label "Enable single window mode">
-<!ENTITY openExternalInTab.label "Force all external links to open in New Tab">
-<!ENTITY openLinkWithHistory.caption "Retain session history">
-<!ENTITY openLinkWithHistory.label "Retain session history for new tabs from links">
-<!ENTITY openHistoryWithHistory.label "Retain session history for new tabs from session history items">
 <!ENTITY clickBookmarks.label "On bookmarks:">
 <!ENTITY clickLinks.label "On links:">
 <!ENTITY doDefault.label "Default">
@@ -86,8 +80,8 @@
 <!ENTITY invertFocus.label "Invert focus">
 <!ENTITY invertFocus.tooltip "Invert tab focus when Middle-click opens in new tab">
 <!ENTITY stayMenuOpen.label "Stay menu open">
-<!ENTITY rightAsMiddle.label "Right-click functions as Middle-click">
-<!ENTITY dragAndGo.label "Drag and go to open links or selected text in new tab">
+<!ENTITY rightAsMiddle.label "R-click functions as M-click">
+<!ENTITY dragAndGo.label "Drag links or selected text to open in new tab">
 <!ENTITY dragAndGo.tooltip "Ctrl+Drag: search link text; Shift+Drag: invert focus">
 <!ENTITY clickCurrentTab.label "On current tab:">
 <!ENTITY clickTab.label "On tabs:">
@@ -102,8 +96,11 @@
 <!ENTITY sessionHistoryMenu.label "Session History Menu">
 <!ENTITY tabContextMenu.label "Tab Context Menu">
 <!ENTITY toolbarContextMenu.label "Toolbar Context Menu">
+<!ENTITY multipleTabHandler.label "Allow manipulating multiple tabs simultaneously">
 <!ENTITY mouseReleaseSelect.label "Mouse click (down and release) to focus a tab">
-<!ENTITY mouseHoverSelect.label "Mouse hover to focus a tab with a delay of">
+<!ENTITY mouseHoverPreview.label "Mouse hover to preview a tab with a delay of">
+<!ENTITY mouseHoverSelect.label "Focus the tab after">
+<!ENTITY mouseHoverLoad.label "Load the tab after">
 <!ENTITY mouseScrollSelect.label "Mouse scroll to focus a tab">
 <!ENTITY mouseScrollSelectDir.label "Invert scrolling direction">
 <!ENTITY mouseScrollSelectWrap.label "Wrap when reaching ends of the tab bar">
@@ -144,6 +141,7 @@
 <!ENTITY highlightOutline.label "Outline:">
 <!ENTITY highlightColor.label "Color:">
 <!ENTITY highlightBgColor.label "Background:">
+<!ENTITY highlightOpacity.label "Opacity:">
 <!ENTITY tabWidth.label "Tab width:">
 <!ENTITY tabHeight.label "Tab height:">
 <!ENTITY to.label "to">
@@ -151,3 +149,18 @@
 <!ENTITY statusbar.caption "Status Bar">
 <!ENTITY hideStatusbarpanel.label1 "Hide [">
 <!ENTITY hideStatusbarpanel.label2 "]">
+<!ENTITY tabStacking.caption "Tab Stacking">
+<!ENTITY autoStack.label "Auto-stack tabs from links or a group of bookmarks">
+<!ENTITY dragToStack.label "Drop one tab onto another to make a new stack">
+<!ENTITY colorizeStack.label "Colorize tab stacks">
+<!ENTITY mouseHoverPopup.label "List tabs inside a collapsed stack with a delay of">
+<!ENTITY autoCollapseNewStack.label "Collapse new stacks">
+<!ENTITY autoCollapseStackOnBlur.label "Collapse a stack when leaving it">
+<!ENTITY autoExpandStackAndCollapseOthersOnSelect.label "Expand a stack when focusing it, and collapse others simultaneously">
+<!ENTITY autoExpandStackOnDragover.label "Expand a stack when dragging over it">
+<!ENTITY tabPinning.caption "Tab Pinning">
+<!ENTITY autoProtect.label "Auto-protect pinned tabs from being closed">
+<!ENTITY autoLock.label "Auto-lock pinned tabs from being unloaded/redirected">
+<!ENTITY showPhantom.label "Show phantom tabs for closed pinnned tabs">
+<!ENTITY tabUnloading.caption "Tab Unloading">
+<!ENTITY restartAfter.label "Auto-unload tabs after inactivity of">
