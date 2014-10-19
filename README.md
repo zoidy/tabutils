@@ -22,3 +22,5 @@ It was broken due to removed `browser.tabs.closeButtons` preference in Firefox 3
   * Added a new option "Browser default" which makes Close Tab
     buttons behave in a browser default way and not being affected by
     this extension.
+* Dropped support for Firefox 30 and older versions
+* Developer: Added warn logging in case when nothing was replaced in `TU_hookFunc`
