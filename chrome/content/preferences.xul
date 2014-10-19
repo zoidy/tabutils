@@ -479,7 +479,7 @@
   <prefpane id="pane4" label="&pane4.title;" helpTopic2="pane4" persist="lastSelected" onpaneload="onPaneLoad(this);" onselect="onPaneSelect(this);">
     <preferences>
       <preference id="tabBarPosition" name="extensions.tabutils.tabBarPosition" type="int" onchange="tabBarPosition();"/>
-      <preference id="closeButtons" name="extensions.tabutils.closeButtons" type="int" suggest="1" onchange="closeButtons();"/>
+      <preference id="closeButtons" name="extensions.tabutils.closeButtons" type="int" suggest="10" onchange="closeButtons();"/>
       <preference id="showTabCounter" name="extensions.tabutils.showTabCounter" type="bool" suggest="true"/>
       <preference id="showLeftSpace" name="extensions.tabutils.showLeftSpace" type="bool"/>
       <preference id="showRightSpace" name="extensions.tabutils.showRightSpace" type="bool"/>
@@ -574,9 +574,10 @@
                   <checkbox preference="closeButtons" label="&button.label1;&closeTab.label;&button.label2;"
                             onsyncfrompreference="return $('closeButtons').value != 2;"
                             onsynctopreference="return this.checked ? this.nextSibling.value : 2;"/>
-                  <menulist preference="closeButtons" value="1"
+                  <menulist preference="closeButtons" value="10"
                             onsyncfrompreference="return $('closeButtons').value == 2 ? this.value : $('closeButtons').value;">
                     <menupopup>
+                      <menuitem value="10" label="(&closeButtons.10.label;)"/>
                       <menuitem value="0" label="&closeButtons.0.label;"/>
                       <menuitem value="1" label="&closeButtons.1.label;"/>
                       <menuitem value="18" label="&closeButtons.18.label;"/>
@@ -1146,7 +1147,8 @@
     }
 
     function closeButtons() {
-      $("tabClipWidth").disabled = $("closeButtons").value != 1;
+      var value = $("closeButtons").value;
+      $("tabClipWidth").disabled = (value != 1) && (value != 10);
     }
 
     function hideLoadInBackground() {

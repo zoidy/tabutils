@@ -53,6 +53,11 @@ var tabutils = {
     document.documentElement.setAttribute("v17", true);
     document.documentElement.setAttribute("v29", version >= 29.0);
 
+    gBrowser.mTabContainer._originalAdjustTabstripFunc = gBrowser.mTabContainer.adjustTabstrip;
+    gBrowser.mTabContainer.adjustTabstrip = function adjustTabstrip() {
+      this._originalAdjustTabstripFunc();
+    }
+
 //    Function.prototype.__defineGetter__("stack", function() {
 //      var stack = [];
 //      for (let caller = this; caller && stack.length < 15; caller = caller.caller) {
@@ -2852,24 +2857,26 @@ tabutils._tabPrefObserver = {
 
     //Close buttons
     TU_hookCode("gBrowser.mTabContainer.adjustTabstrip",
-      ["numTabs > 2", "false"],
+      ["this._originalAdjustTabstripFunc();", "if (this.mCloseButtons == 10) {$&}"],
       ["}", function() {
-        var def = "alltabs";
-        var map = {
-           0: "activetab",
-           1: "alltabs",
-           2: "hidden",
-          16: "activepointedtab",
-          18: "pointedtab"
-        };
-        var value = map[this.mCloseButtons] || def;
-        if (value == "alltabs") {
-          let tab = this.tabbrowser.visibleTabs[this.tabbrowser._numPinnedTabs];
-          if (tab && tab.getBoundingClientRect().width <= this.mTabClipWidth) {
-            value = "hidden";
+        if (this.mCloseButtons != 10) {
+          var def = "alltabs";
+          var map = {
+             0: "activetab",
+             1: "alltabs",
+             2: "hidden",
+            16: "activepointedtab",
+            18: "pointedtab"
+          };
+          var value = map[this.mCloseButtons] || def;
+          if (value == "alltabs") {
+            let tab = this.tabbrowser.visibleTabs[this.tabbrowser._numPinnedTabs];
+            if (tab && tab.getBoundingClientRect().width <= this.mTabClipWidth) {
+              value = "hidden";
+            }
           }
+          this.setAttribute("closebuttons", value);
         }
-        this.setAttribute("closebuttons", value);
       }]
     );
 
