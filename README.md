@@ -1,8 +1,12 @@
 # Tab Utilities
 
-This is a fork of [Tab Utilities v1.5.28.1](https://github.com/ithinc/tabutils).
+This is a fork of [Tab Utilities 1.6pre21](https://github.com/ithinc/tabutils).
 
 ## Improvements
+
+### v1.6pre21-u2
+
+* Merged 1.6pre21 version into the fork.
 
 ### v1.5.28.1-u1
 
