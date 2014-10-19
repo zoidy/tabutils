@@ -2852,17 +2852,24 @@ tabutils._tabPrefObserver = {
 
     //Close buttons
     TU_hookCode("gBrowser.mTabContainer.adjustTabstrip",
-      [/let tab.*/, function() {
-        let tab;
-        Array.some(this.tabbrowser.visibleTabs, function(aTab) {
-          return !aTab.collapsed && getComputedStyle(aTab).MozBoxFlex > 0 && (tab = aTab);
-        });
-      }],
-      ["this.mCloseButtons", "($& & 0x0f)"],
-      ["this.mCloseButtons != 3", "(this.mCloseButtons & 0x0f) != 3 && !(this.mCloseButtons & 0x20)"],
-      ["this._closeWindowWithLastTab", "false", "g"],
+      ["numTabs > 2", "false"],
       ["}", function() {
-        this.setAttribute("closeButtonOnPointedTab", (this.mCloseButtons & 0x0f) == 1 || !!(this.mCloseButtons & 0x10));
+        var def = "alltabs";
+        var map = {
+           0: "activetab",
+           1: "alltabs",
+           2: "hidden",
+          16: "activepointedtab",
+          18: "pointedtab"
+        };
+        var value = map[this.mCloseButtons] || def;
+        if (value == "alltabs") {
+          let tab = this.tabbrowser.visibleTabs[this.tabbrowser._numPinnedTabs];
+          if (tab && tab.getBoundingClientRect().width <= this.mTabClipWidth) {
+            value = "hidden";
+          }
+        }
+        this.setAttribute("closebuttons", value);
       }]
     );
 

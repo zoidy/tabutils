@@ -578,9 +578,9 @@
                             onsyncfrompreference="return $('closeButtons').value == 2 ? this.value : $('closeButtons').value;">
                     <menupopup>
                       <menuitem value="0" label="&closeButtons.0.label;"/>
+                      <menuitem value="1" label="&closeButtons.1.label;"/>
                       <menuitem value="18" label="&closeButtons.18.label;"/>
                       <menuitem value="16" label="&closeButtons.16.label;"/>
-                      <menuitem value="1" label="&closeButtons.1.label;"/>
                       <menuitem value="2" label="&closeButtons.2.label;" hidden="true"/>
                     </menupopup>
                   </menulist>
