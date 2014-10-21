@@ -22,7 +22,6 @@ tabutils._verticalTabs = function() {
     [".width", "[size]", "g"]
   );
 
-  TU_hookCode("gBrowser.addTab", '!Services.prefs.getBoolPref("browser.tabs.animate")', 'this.mTabContainer.orient == "vertical" || $&');
   TU_hookCode("gBrowser.removeTab", '!Services.prefs.getBoolPref("browser.tabs.animate")', 'this.mTabContainer.orient == "vertical" || $&');
 
   // Hide tabs toolbar in Full Screen mode
