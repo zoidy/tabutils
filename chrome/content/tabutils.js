@@ -1917,7 +1917,7 @@ tabutils._multiTabHandler = function() {
     ["this.mCurrentTab._selected = true;", "$&;if (wasFocused) this.mCurrentTab.focus();"]
   );
 
-  ["moveTabBackward", "moveTabForward", "moveTabToStart"].forEach(function(aMethod) {
+  ["moveTabBackward", "moveTabForward"].forEach(function(aMethod) {
     TU_hookCode.call(gBrowser, aMethod, "this.mCurrentTab.focus();", "");
   });
 
