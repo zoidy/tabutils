@@ -1598,8 +1598,7 @@ tabutils._bookmarkTabs = function() {
         if (tab)
           annos.push({name: "bookmarkProperties/tabState", value: tabutils._ss.getTabState(tab)});
       }
-    }],
-    [/.*(createItem|PlacesCreateBookmarkTransaction).*/, function(s) s.replace("[descAnno]", "annos")]  // Bug 575955 [Fx13]
+    }]
   );
 
   TU_hookCode("PlacesCommandHook.bookmarkCurrentPages",
