@@ -1930,15 +1930,6 @@ tabutils._multiTabHandler = function() {
     }).apply(this)
   }).toString().replace(/^.*{|}$/g, ""));
 
-  TU_hookCode("gBrowser.moveTabForward", "this.mCurrentTab._tPos", (function() {
-    (function () {
-      let tab = this.mCurrentTab.nextSibling;
-      while (tab && tab.boxObject.width == 0)
-        tab = tab.nextSibling;
-      return tab ? tab._tPos - 1 : this.mTabs.length;
-    }).apply(this)
-  }).toString().replace(/^.*{|}$/g, ""));
-
   //Protect/Lock/Faviconize/Pin All Tabs
   [
     ["gBrowser.unreadTab", ["unread"]],
