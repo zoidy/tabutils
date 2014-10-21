@@ -158,6 +158,9 @@ tabutils._phantomTabs = function() {
   });
 
   gBrowser.mTabContainer.positionPinnedTab = function positionPinnedTab(aTab) {
+    console.log("positionPinnedTab");
+    console.trace();
+    console.log(aTab);
     if (aTab.mCorrespondingButton) {
       aTab.mCorrespondingButton.tab = null;
       aTab.mCorrespondingButton = null;
@@ -172,10 +175,16 @@ tabutils._phantomTabs = function() {
 
       let pinnedbox = this.mTabstrip._pinnedbox, n = 0;
       for (let button of pinnedbox.childNodes) {
+        console.log(button);
+        console.log(button.tab);
         if (button.tab) {
           n++;
+          console.log(n);
+          console.log("continue");
           continue;
         }
+        console.log(button._placesNode.itemId);
+        console.log(aTab.bookmarkId);
         if (button._placesNode.itemId == aTab.bookmarkId) {
           button.tab = aTab;
           aTab.mCorrespondingButton = button;
@@ -187,7 +196,11 @@ tabutils._phantomTabs = function() {
   };
 
   gBrowser.mTabContainer.positionPinnedTabs = function positionPinnedTabs(aRebuild) {
+    console.log("positionPinnedTabs");
+    console.trace();
     var pinnedbox = this.mTabstrip._pinnedbox;
+    console.log(pinnedbox);
+    console.log(this);
     if (aRebuild) {
       for (let i = 0, tab; (tab = this.childNodes[i]) && tab.mCorrespondingButton; i++) {
         tab.mCorrespondingButton = null;
@@ -212,9 +225,15 @@ tabutils._phantomTabs = function() {
     else
       this.removeAttribute("haspinned");
 
+    console.log("for (let button of pinnedbox.childNodes) {");
     for (let button of pinnedbox.childNodes) {
+      console.log(button);
       button.width = button.tab ? button.tab.getBoundingClientRect().width : 0;
       button.style.opacity = button.width > 0 ? 0 : "";
+      button.style.setProperty("outline", "1px solid", "");
+      button.style.setProperty("outline-offset", "1px", "");
+      button.style.setProperty("-moz-outline-radius", "4px", "");
+      button.style.setProperty("outline-color", "red", "");
     }
 
     var ltr = getComputedStyle(this).direction == "ltr";
