@@ -130,6 +130,11 @@
 
   //耜晚戲抎
   TU_hookCode("TU_openNodeWithEvent", /_openNodeIn\((.*)\)/, function(s, s1) s.replace(s1, (s1 = s1.split(","), s1.push("aEvent || {}"), s1.join())));
+  TU_hookCode("TU_openNodeWithEvent", "{", function() {
+    console.log("TU_openNodeWithEvent");
+    console.log(arguments);
+    console.trace();
+  });
   TU_hookCode("TU__openNodeIn",
     ["{", "var aEvent = arguments[arguments.callee.length];"],
     ['aWhere == "current"', '(aEvent ? !aEvent.button && !aEvent.ctrlKey && !aEvent.altKey && !aEvent.shiftKey && !aEvent.metaKey : $&)']

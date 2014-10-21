@@ -1,4 +1,5 @@
 function TU_hookCode(aStr) {
+  // console.log("TU_hookCode("+aStr+")")
   try {
     var namespaces = aStr.split(".");
 
@@ -56,6 +57,12 @@ function TU_hookSetter(aStr) {
 function TU_hookFunc(aFunc) {
   var myCode = aFunc.toString();
   var orgCode, newCode, flags;
+  if (new RegExp("aView").test(myCode)) {
+    console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+    console.log(myCode);
+    console.trace();
+    console.log(arguments);
+  }
 
   for (var i = 1; i < arguments.length;) {
     if (arguments[i].constructor.name == "Array")
@@ -81,6 +88,14 @@ function TU_hookFunc(aFunc) {
       console.log(myCode);
     }
     myCode = replacedCode;
+  }
+  if (new RegExp("aView").test(myCode)) {
+    console.log("///////////////////////////////////////////");
+    console.log(myCode);
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+  }
+  if (new RegExp("whereToOpenLink").test(myCode)) {
+    console.log(myCode);
   }
 
 //  Cu.reportError(myCode);
