@@ -985,18 +985,6 @@ tabutils._tabClosingOptions = function() {
 
   TU_hookCode("gBrowser.updateCurrentBrowser", /.*dispatchEvent[\s\S]*_tabAttrModified.*/, "$&};if (window.windowState != window.STATE_MINIMIZED) {");
 
-  //Don't close the last primary window with the las tab
-  TU_hookCode("gBrowser._beginRemoveTab", "_closeWindowWithLastTab", "$& && " + (function() { //Bug 607893
-    (TU_getPref("extensions.tabutils.closeLastWindowWithLastTab", false) || function() {
-      var winEnum = Services.wm.getEnumerator("navigator:browser");
-      while (winEnum.hasMoreElements()) {
-        var win = winEnum.getNext();
-        if (win != window && win.toolbar.visible)
-          return win;
-      }
-    }())
-  }).toString().replace(/^.*{|}$/g, ""));
-
   //Don't resize tabs until mouse leaves the tab bar
   gBrowser.mTabContainer.__defineGetter__("_tabSizingRule", function() { //Bug 465086, 649654
     delete this._tabSizingRule;
