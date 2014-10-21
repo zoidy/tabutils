@@ -694,7 +694,6 @@ tabutils._tabOpeningOptions = function() {
   TU_hookCode("isBlankPageURL", "aURL == BROWSER_NEW_TAB_URL", "$& && TU_getPref('extensions.tabutils.markNewAsBlank', true)");
   TU_hookCode("URLBarSetURI", "gInitialPages.indexOf(uri.spec) != -1", "isBlankPageURL(uri.spec)");
   TU_hookCode("gBrowser._beginRemoveTab", /.*addTab.*/, "BrowserOpenTab();");
-  TU_hookCode("gBrowser._endRemoveTab", /.*addTab.*/, "BrowserOpenTab();");
 
   gBrowser.getLastOpenedTab = function getLastOpenedTab() {
     return this.mTabContainer.getElementsByAttribute("linkedpanel", this.mPanelContainer.lastChild.id)[0];
