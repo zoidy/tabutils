@@ -22,7 +22,6 @@ pref("extensions.tabutils.markNewAsBlank", false);
 
 pref("extensions.tabutils.selectOnClose", 74);
 pref("extensions.tabutils.removeUnintentionalBlank", false);
-pref("extensions.tabutils.closeLastWindowWithLastTab", false);
 pref("extensions.tabutils.handleCtrlTab", false);
 pref("extensions.tabutils.handleCtrlArrow", false);
 pref("extensions.tabutils.handleCtrl", true);
