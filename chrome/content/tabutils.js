@@ -1917,10 +1917,6 @@ tabutils._multiTabHandler = function() {
     ["this.mCurrentTab._selected = true;", "$&;if (wasFocused) this.mCurrentTab.focus();"]
   );
 
-  ["moveTabBackward"].forEach(function(aMethod) {
-    TU_hookCode.call(gBrowser, aMethod, "this.mCurrentTab.focus();", "");
-  });
-
   //Protect/Lock/Faviconize/Pin All Tabs
   [
     ["gBrowser.unreadTab", ["unread"]],
