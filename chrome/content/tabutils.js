@@ -1921,15 +1921,6 @@ tabutils._multiTabHandler = function() {
     TU_hookCode.call(gBrowser, aMethod, "this.mCurrentTab.focus();", "");
   });
 
-  TU_hookCode("gBrowser.moveTabBackward", "this.mCurrentTab._tPos", (function() { // Bug 656222 [Fx20]
-    (function () {
-      let tab = this.mCurrentTab.previousSibling;
-      while (tab && tab.boxObject.width == 0)
-        tab = tab.previousSibling;
-      return tab ? tab._tPos + 1 : 0;
-    }).apply(this)
-  }).toString().replace(/^.*{|}$/g, ""));
-
   //Protect/Lock/Faviconize/Pin All Tabs
   [
     ["gBrowser.unreadTab", ["unread"]],
