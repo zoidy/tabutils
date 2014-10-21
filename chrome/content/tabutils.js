@@ -321,7 +321,6 @@ tabutils._openUILinkInTab = function() {
       params.disallowInheritPrincipal = !mayInheritPrincipal;
       params.event = aTriggeringEvent || {};
     }],
-    [/.*loadURIWithFlags.*(?=[\s\S]*(let params[\s\S]*openUILinkIn.*))/, function(s, s1) s1.replace("where", '"current"')],
     ["aTriggeringEvent.preventDefault();", ""],
     ["aTriggeringEvent.stopPropagation();", ""]
   );
