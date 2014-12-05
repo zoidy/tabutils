@@ -4,6 +4,13 @@ This is a fork of [Tab Utilities](https://github.com/ithinc/tabutils) and is bas
 
 ## Improvements
 
+### v1.2.0
+
+* Changed versioning scheme.
+* Merged pull request [#2](https://github.com/phts/tabutils/pull/2).
+* Options: Disable "Close Tab button" list if checkbox is unchecked.
+* Code clean up.
+
 ### v1.6pre21-u2
 
 * Merged 1.6pre21 version into the fork.
