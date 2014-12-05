@@ -322,7 +322,6 @@ tabutils._openUILinkInTab = function() {
       params.disallowInheritPrincipal = !mayInheritPrincipal;
       params.event = aTriggeringEvent || {};
     }],
-    [/.*loadURIWithFlags.*(?=[\s\S]*(let params[\s\S]*openUILinkIn.*))/, function(s, s1) s1.replace("where", '"current"')],
     ["aTriggeringEvent.preventDefault();", ""],
     ["aTriggeringEvent.stopPropagation();", ""]
   );
@@ -695,7 +694,6 @@ tabutils._tabOpeningOptions = function() {
   TU_hookCode("isBlankPageURL", "aURL == BROWSER_NEW_TAB_URL", "$& && TU_getPref('extensions.tabutils.markNewAsBlank', true)");
   TU_hookCode("URLBarSetURI", "gInitialPages.indexOf(uri.spec) != -1", "isBlankPageURL(uri.spec)");
   TU_hookCode("gBrowser._beginRemoveTab", /.*addTab.*/, "BrowserOpenTab();");
-  TU_hookCode("gBrowser._endRemoveTab", /.*addTab.*/, "BrowserOpenTab();");
 
   gBrowser.getLastOpenedTab = function getLastOpenedTab() {
     return this.mTabContainer.getElementsByAttribute("linkedpanel", this.mPanelContainer.lastChild.id)[0];
@@ -985,18 +983,6 @@ tabutils._tabClosingOptions = function() {
   });
 
   TU_hookCode("gBrowser.updateCurrentBrowser", /.*dispatchEvent[\s\S]*_tabAttrModified.*/, "$&};if (window.windowState != window.STATE_MINIMIZED) {");
-
-  //Don't close the last primary window with the las tab
-  TU_hookCode("gBrowser._beginRemoveTab", "_closeWindowWithLastTab", "$& && " + (function() { //Bug 607893
-    (TU_getPref("extensions.tabutils.closeLastWindowWithLastTab", false) || function() {
-      var winEnum = Services.wm.getEnumerator("navigator:browser");
-      while (winEnum.hasMoreElements()) {
-        var win = winEnum.getNext();
-        if (win != window && win.toolbar.visible)
-          return win;
-      }
-    }())
-  }).toString().replace(/^.*{|}$/g, ""));
 
   //Don't resize tabs until mouse leaves the tab bar
   gBrowser.mTabContainer.__defineGetter__("_tabSizingRule", function() { //Bug 465086, 649654
@@ -1599,8 +1585,7 @@ tabutils._bookmarkTabs = function() {
         if (tab)
           annos.push({name: "bookmarkProperties/tabState", value: tabutils._ss.getTabState(tab)});
       }
-    }],
-    [/.*(createItem|PlacesCreateBookmarkTransaction).*/, function(s) s.replace("[descAnno]", "annos")]  // Bug 575955 [Fx13]
+    }]
   );
 
   TU_hookCode("PlacesCommandHook.bookmarkCurrentPages",
@@ -1917,28 +1902,6 @@ tabutils._multiTabHandler = function() {
     ["this.mCurrentTab._selected = false;", "let wasFocused = (document.activeElement == this.mCurrentTab);$&"],
     ["this.mCurrentTab._selected = true;", "$&;if (wasFocused) this.mCurrentTab.focus();"]
   );
-
-  ["moveTabBackward", "moveTabForward", "moveTabToStart", "moveTabToEnd"].forEach(function(aMethod) {
-    TU_hookCode.call(gBrowser, aMethod, "this.mCurrentTab.focus();", "");
-  });
-
-  TU_hookCode("gBrowser.moveTabBackward", "this.mCurrentTab._tPos", (function() { // Bug 656222 [Fx20]
-    (function () {
-      let tab = this.mCurrentTab.previousSibling;
-      while (tab && tab.boxObject.width == 0)
-        tab = tab.previousSibling;
-      return tab ? tab._tPos + 1 : 0;
-    }).apply(this)
-  }).toString().replace(/^.*{|}$/g, ""));
-
-  TU_hookCode("gBrowser.moveTabForward", "this.mCurrentTab._tPos", (function() {
-    (function () {
-      let tab = this.mCurrentTab.nextSibling;
-      while (tab && tab.boxObject.width == 0)
-        tab = tab.nextSibling;
-      return tab ? tab._tPos - 1 : this.mTabs.length;
-    }).apply(this)
-  }).toString().replace(/^.*{|}$/g, ""));
 
   //Protect/Lock/Faviconize/Pin All Tabs
   [
@@ -2883,13 +2846,6 @@ tabutils._allTabsPopup = function() {
 };
 
 tabutils._hideTabBar = function() {
-  if (onViewToolbarsPopupShowing.name == "onViewToolbarsPopupShowing") //Compa. with Omnibar
-  TU_hookCode("onViewToolbarsPopupShowing", /(?=.*addon-bar.*)/, function() { // Bug 749804 [Fx29]
-    let tabsToolbar = document.getElementById("TabsToolbar");
-    if (toolbarNodes.indexOf(tabsToolbar) == -1)
-      toolbarNodes.push(tabsToolbar);
-  });
-
   if ("getTogglableToolbars" in window) // Bug 940669 [Fx29]
   TU_hookCode("getTogglableToolbars", /(?=.*return.*)/, function() {
     toolbarNodes = [...new Set(toolbarNodes)];

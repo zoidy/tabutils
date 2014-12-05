@@ -66,7 +66,6 @@
       <preference id="loadAllInForeground" name="extensions.tabutils.loadAllInForeground" type="bool" onchange="loadAllInForeground();"/>
 
       <preference id="selectOnClose" name="extensions.tabutils.selectOnClose" type="int"/>
-      <preference id="closeLastWindowWithLastTab" name="extensions.tabutils.closeLastWindowWithLastTab" type="bool" inverted="true"/>
       <preference id="handleCtrlTab" name="extensions.tabutils.handleCtrlTab" type="bool" suggest="true"/>
       <preference id="handleCtrlArrow" name="extensions.tabutils.handleCtrlArrow" type="bool"/>
       <preference id="handleCtrl" name="extensions.tabutils.handleCtrl" type="bool"/>
@@ -696,7 +695,7 @@
                   <checkbox preference="closeButtons" label="&button.label1;&closeTab.label;&button.label2;"
                             onsyncfrompreference="return $('closeButtons').value != 2;"
                             onsynctopreference="return this.checked ? this.nextSibling.value : 2;"/>
-                  <menulist preference="closeButtons" value="10"
+                  <menulist id="c.closeButtons" preference="closeButtons" value="10"
                             onsyncfrompreference="return $('closeButtons').value == 2 ? this.value : $('closeButtons').value;">
                     <menupopup>
                       <menuitem value="10" label="(&closeButtons.10.label;)"/>
@@ -1233,6 +1232,7 @@
     function closeButtons() {
       var value = $("closeButtons").value;
       $("tabClipWidth").disabled = (value != 1) && (value != 10);
+      $("c.closeButtons").disabled = value == 2;
     }
 
     function hideLoadInBackground() {
