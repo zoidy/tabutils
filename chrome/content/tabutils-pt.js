@@ -290,11 +290,14 @@ tabutils._phantomTabs = function() {
 
     var wasSelected = tab.selected;
     var wasPinned = tab.pinned;
+    
+    tab.boxObject.firstChild.style.left="7px";
 
     tab.removeAttribute("selected");
     tab.removeAttribute("pinned");
     var style = getComputedStyle(tab);
     var height = tab.boxObject.height;
+    height=20;
     var lineHeight = tab.boxObject.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
     this._pinnedTabRules[0].style.setProperty("height", height + "px", "");
     this._pinnedTabRules[1].style.setProperty("margin-top", -height + "px", "important");
@@ -304,6 +307,7 @@ tabutils._phantomTabs = function() {
     tab.setAttribute("selected", true);
     var style = getComputedStyle(tab);
     var height = tab.boxObject.height;
+    height=20;
     var lineHeight = tab.boxObject.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
     this._pinnedTabRules[3].style.setProperty("height", height + "px", "important");
     this._pinnedTabRules[3].style.setProperty("line-height", lineHeight + "px", "");
@@ -325,6 +329,7 @@ tabutils._phantomTabs = function() {
       var style = getComputedStyle(icon);
       var x_middle = (rect.top - parseFloat(style.marginTop) + rect.bottom + parseFloat(style.marginBottom)) / 2 - (parseFloat(style.top) || 0);
       this._pinnedTabRules[4].style.setProperty("top", middle - x_middle + "px", "");
+      this._pinnedTabRules[4].style.setProperty("width", "18px", "");
     }
   };
 
