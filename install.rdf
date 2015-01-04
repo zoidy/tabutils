@@ -10,6 +10,7 @@
     <em:contributor>Emanuele Alimonda</em:contributor>
     <em:description>Open Bookmarks/History/URL/Search in new tabs, and more utilities for tabbed browsing.</em:description>
     <em:homepageURL>https://github.com/phts/tabutils</em:homepageURL>
+    <em:updateURL>https://github.com/phts/tabutils</em:updateURL>
     <em:iconURL>chrome://tabutils/skin/tabutils.png</em:iconURL>
     <em:optionsURL>chrome://tabutils/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
