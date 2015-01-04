@@ -57,12 +57,12 @@ menuseparator:last-child {
 }
 
 /* Tab Highlighting */
-.tabbrowser-tab[locked] .tab-throbber:not([busy]),
+/*.tabbrowser-tab[locked] .tab-throbber:not([busy]),
 .tabbrowser-tab[locked] .tab-throbber:not([busy]) + .tab-icon-image,
 .tabbrowser-tab[protected] .tab-close-button,
 .tabbrowser-tab[autoReload] .tab-close-button {
   display: -moz-box !important;
-}
+}*/
 
 .tabbrowser-tab[protected] .tab-close-button,
 .tabbrowser-tab[autoReload]:not(:hover) .tab-close-button {
